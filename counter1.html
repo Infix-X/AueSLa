@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React File Input Example</title>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
+  
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Your React Component -->
+  <script type="text/babel">
+
+    // Your FileInput Component
+    function FileInput() {
+      const [selectedFile, setSelectedFile] = React.useState(null);
+      const [counter,setCounter ] = React.useState(0);
+
+      
+      const handleFileChange=(event) =>{
+            setSelectedFile(event.target.files[0]);
+
+        }
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        if (selectedFile) {
+          alert(`File selected: ${selectedFile.name}`);
+          console.log(selectedFile.name)
+        } else {
+          alert('No file selected');
+        }
+      };
+
+      const onAdd =(event) =>{
+        event.preventDefault();
+        
+        setCounter(counter+1);
+        console.log(counter+1);
+      }
+      const onMinus=(event)=>{
+        event.preventDefault();
+        
+        setCounter((prevCounter)=>{
+            const newCounter=prevCounter-1;
+            return newCounter >=0 ? newCounter:0;
+
+        })
+        console.log(counter - 1);
+    }
+      return (
+        <>
+        <form onSubmit={handleSubmit}>
+          <input type="file" onChange={handleFileChange} />
+          <button type="submit">Submit</button>
+          
+        </form>
+        <div>
+            <p>Value:{counter}</p>
+            <button onClick={onAdd}>add value</button>
+            <button onClick={onMinus}>Minus value</button>
+            </div>
+        
+        </>
+
+      );
+    }
+
+    // Rendering the component
+    ReactDOM.render(<FileInput />, document.getElementById('root'));
+
+  </script>
+</body>
+</html>
